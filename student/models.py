@@ -23,11 +23,12 @@ class Students(models.Model):
         (0, "Schools"),
         (1, "Works"),
     )
-    name = models.CharField(max_length=100)
+    nameST = models.CharField(max_length=100)
     birthday = models.DateField(datetime.now())
     gender = models.IntegerField(default=1, choices=GENDER_CHOICES)
     email = models.EmailField(max_length=100)
     state = models.IntegerField(default=1, choices=STATE_CHOICES)
+    class_id = models.ForeignKey(ClassST, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.nameST

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <button type="button" class="btn btn-outline-success btn-add show-form" data-toggle="modal"
+            data-target="#CreateClass">Create
+    </button>
+    <table class="table table-striped table-bordered  table-sm">
+        <thead class="text-center">
+        <tr class="row alert-info">
+            <th class="col-sm-4 col-md-4 col-lg-4">Class Name</th>
+            <th class="col-sm-4 col-md-4 col-lg-4">Type</th>
+            <th class="col-sm-4 col-md-4 col-lg-4">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for classtudent in studentclass %}
+            <tr class="row">
+                <td class="col-sm-4 col-md-4 col-lg-4">{{ classtudent.classname }}</td>
+                <td class="col-sm-4 col-md-4 col-lg-4">
+                    {% if classtudent.classtype == 0 %}Online{% elif classtudent.classtype == 1 %}Offline{% endif %}
+                </td>
+
+                <td class="col-sm-4 col-md-4 col-lg-4 text-center">
+                    <a href="/edit/{{ classtudent.id }}"><span class="btn btn-success">Edit</span></a>
+                    <a href="/delete/{{ classtudent.id }}"><span class="btn btn-danger">Delete</span></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {# Modal Create student #}
+    <div class="modal fade" id="CreateClass" tabindex="-1" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <form method="POST" action="/createclass/" class="create-form">
+                    {% csrf_token %}
+                    <div class="modal-header alert-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Class</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Class Name</label>
+                            <input id="classname" name="classname" type="text" class="form-control" value="">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="classtype" name="classtype" class="form-control">
+                                <option selected disabled>---select state---</option>
+                                {% for x,y in forms.fields.classtype.choices %}
+                                    <option value="{{ x }}"{% if forms.fields.classtype.value == x %}
+                                            selected{% endif %}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

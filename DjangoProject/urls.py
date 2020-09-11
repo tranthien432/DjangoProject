@@ -20,8 +20,8 @@ from student import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('student.urls')),
-    path('std/', views.std),
-    path('view/', views.view),
-    path('delete/<int:id>', views.delete),
-    path('edit/<int:id>', views.edit),
+    # path('std/', views.std),
+    # path('view/', views.view),
+    # path('delete/<int:id>', views.delete),
+    # path('edit/<int:id>', views.edit),
 ]
