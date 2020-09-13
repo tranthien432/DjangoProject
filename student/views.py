@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Students, ClassST
 from student.forms import StudentsForm, ClassForm
 
+from rest_framework import serializers, viewsets
 
 
 def home(request):
@@ -65,3 +66,14 @@ def editclass(request, id):
     studentclass = ClassST.objects.get(id=id)
     forms = ClassForm()
     return render(request, 'studentclass/editclass.html', {'studentclass': studentclass, 'form': forms})
+
+
+class ClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassST
+        fields = ('url', 'classname', 'classtype')
+
+
+class ClassViewSet(viewsets.ModelViewSet):
+    queryset = ClassST.objects.all()
+    serializer_class = ClassSerializer
